@@ -13,5 +13,5 @@ COPY eureka-server-1.0-SNAPSHOT ${INSTALL_DIR}/app.jar
 # 将启动命令写入启动脚本 start.sh
 RUN echo 'java -Dfile.encoding=utf-8 -Djava.security.egd=file:/dev/./urandom -jar ${INSTALL_DIR}/app.jar --server.tomcat.uri-encoding=UTF-8 --server.tomcat.max-threads=400' > /home/app/start.sh && chmod +x /home/app/start.sh
 
-WORKSPACE $INSTALL_DIR
+WORKDIR $INSTALL_DIR
 CMD ["/bin/bash","start.sh"]
