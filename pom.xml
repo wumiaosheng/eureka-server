@@ -45,7 +45,7 @@
         <configuration>
           <fork>true</fork>
           <executable>true</executable>
-          <mainClass>com.trtjk.ncos.seckill.web.SecKillWebApplication</mainClass>
+          <mainClass>com.trtjk.ncos.eureka.EurekaWebApplication</mainClass>
         </configuration>
       </plugin>
       <plugin>
