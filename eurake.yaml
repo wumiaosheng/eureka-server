@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: register-svc  # 资源的名字，在同一个namespace中必须唯一
+  labels:
+    service: register-server  # 设定资源的标签
+spec:
+  clusterIP: None
+  type: ClusterIP # ClusterIP 类型
+  ports:
+    - port: 8080  # service 端口
+      targetPort: 8080 # 容器暴露的端口
+      protocol: TCP # 协议
+      name: http # 端口名称
+  selector:
+    service: register-server
+---
+apiVersion: apps/v1
+kind: StatefulSet  # 指定创建资源的角色/类型 Deployment   StatefulSet
+metadata:
+  name: register-server  # 资源的名字，在同一个namespace中必须唯一
+  labels:
+    service: register-server
+spec:
+  replicas: 3  # 声明副本数目
+  serviceName: register-server
+  selector:
+    matchLabels:  # 匹配标签
+      service: register-server
+  template:
+    metadata:
+      labels:
+        service: register-server  # 设定资源的标签
+      annotations:
+        service: register-server  # 自定义注解列表
+    spec:  # 资源规范字段
+      containers:
+        - name: register-server  # 容器的名字
+          image: springcloud/eureka:lates  # 容器使用的镜像地址
+          imagePullPolicy: Always   # 每次Pod启动拉取镜像策略，三个选择 Always、Never、IfNotPresent
+          env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            limits:
+              # cpu: 100m
+              memory: 1Gi
+            requests:
+              # cpu: 100m
+              memory: 500m
+          volumeMounts:
+            - mountPath: /Charts
+              name: data
+      volumes:
+        - name: data
+  podManagementPolicy: "Parallel"
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: eurake-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/tls-acme: "true"
+spec:
+  rules:
+    - host: eureka.trtjk.com
+      http:
+        paths:
+          - path: '/'
+            backend:
+              serviceName: register-svc
+              servicePort: 8080
