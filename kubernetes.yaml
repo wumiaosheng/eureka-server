@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: register-svc  # 资源的名字，在同一个namespace中必须唯一
   labels:
-    service: register-server  # 设定资源的标签
+    service: register-svc  # 设定资源的标签
 spec:
   clusterIP: None
   type: ClusterIP # ClusterIP 类型
