@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: register-server  # 资源的名字，在同一个namespace中必须唯一
+  name: register-svc  # 资源的名字，在同一个namespace中必须唯一
   labels:
-    service: register-server  # 设定资源的标签
+    service: register-svc  # 设定资源的标签
 spec:
   clusterIP: None
   type: ClusterIP # ClusterIP 类型
@@ -44,7 +44,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
             - name: EUREKA_SERVER
-              value: "http://register-server-0.register-server:8080/eureka/,http://register-server-1.register-server:8080/eureka/,http://register-server-2.register-server:8080/eureka/"
+              value: "http://register-server-0.register-svc:8080/eureka/,http://register-server-1.register-svc:8080/eureka/,http://register-server-2.register-svc:8080/eureka/"
           ports:
             - name: http
               containerPort: 8080
@@ -77,5 +77,5 @@ spec:
         paths:
           - path: '/'
             backend:
-              serviceName: register-server
+              serviceName: register-svc
               servicePort: 8080
