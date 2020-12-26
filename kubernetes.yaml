@@ -23,7 +23,7 @@ metadata:
     service: register-server
 spec:
   replicas: 3  # 声明副本数目
-  serviceName: register-server
+  serviceName: register-svc
   selector:
     matchLabels:  # 匹配标签
       service: register-server
