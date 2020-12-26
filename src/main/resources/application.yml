@@ -10,7 +10,7 @@ eureka:
     leaseExpirationDurationInSeconds: 30
     metadata-map:
       VERSION: 1.0.0
-    hostname: ${MY_POD_NAME}.register-server #设置eureka hostname
+    hostname: ${MY_POD_NAME}.register-svc #设置eureka hostname
     prefer-ip-address: false #不使用ip注册，因为eureka相互注册的工程中，使用的服务名，例如register-server-0.register-server，如果使用ip注册，会导致eureka认为其他副本不可用，即eureka服务都会出现在unavailable-replicas中，而不是available-replicas中
   client:
     # //表示是否从Eureka Server获取注册的服务信息
