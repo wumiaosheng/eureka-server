@@ -9,7 +9,7 @@ spec:
   type: ClusterIP # ClusterIP 类型
   ports:
     - port: 8080  # service 端口
-      targetPort: 8080 # 容器暴露的端口
+      targetPort: http # 容器暴露的端口
       protocol: TCP # 协议
       name: http # 端口名称
   selector:
@@ -36,8 +36,8 @@ spec:
     spec:  # 资源规范字段
       containers:
         - name: register-server  # 容器的名字
-          image: registry.cn-hangzhou.aliyuncs.com/airmb_devops/eureka-server:v2  # 容器使用的镜像地址
-          imagePullPolicy: Always   # 每次Pod启动拉取镜像策略，三个选择 Always、Never、IfNotPresent
+          image: registry.cn-hangzhou.aliyuncs.com/airmb_devops/eureka-server:v1  # 容器使用的镜像地址
+          imagePullPolicy: Never     # 每次Pod启动拉取镜像策略，三个选择 Always、Never、IfNotPresent
           env:
             - name: MY_POD_NAME
               valueFrom:
